@@ -11,11 +11,12 @@ try:
     movie_list_path = os.path.join(current_directory, 'artifacts/movie_list.pkl')
     similarity_path = os.path.join(current_directory, 'artifacts/similarity.pkl')
 
-    # Loading the pickled files
-    movies = pickle.load(open(movie_list_path, 'rb'))
-    similarity = pickle.load(open(similarity_path, 'rb'))
 except FileNotFoundError as e:
     st.error(f"File not found: {e.filename}")
+
+# Loading the pickled files
+movies = pickle.load(open(movie_list_path, 'rb'))
+similarity = pickle.load(open(similarity_path, 'rb'))
 
 movie_list = movies['title'].values
 st.selectbox(
