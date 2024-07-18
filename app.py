@@ -3,8 +3,8 @@ import streamlit as st
 import requests
 
 st.header("Movies Recommendation System Using Machine Learning")
-movies = pickle.load(open('artificates/movies_list.pkl', 'rb'))
-similarity = pickle.load(open('artificates/similarity.pkl', 'rb'))
+movies = pickle.load(open('artifacts/movies_list.pkl', 'rb'))
+similarity = pickle.load(open('artifacts/similarity.pkl', 'rb'))
 
 
 movie_list = movies['title'].values
