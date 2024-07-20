@@ -1,12 +1,15 @@
-import os
+import lzma
 import pickle
 import streamlit as st
 
 st.header("Movies Recommendation System Using Machine Learning")
 
+def load_compressed_pickle(file_path):
+    with lzma.open(file_path, 'rb') as f:
+        return pickle.load(f)
 
-movies = pickle.load(open('artifacts/movies.pkl.lzma', 'rb'))
-similarity = pickle.load(open('artifacts/similarity.pkl.lzma', 'rb'))
+movies = load_compressed_pickle('artifacts/movies.pkl.lzma')
+similarity = load_compressed_pickle('artifacts/similarity.pkl.lzma')
 
 movie_list = movies['title'].values
 st.selectbox(
