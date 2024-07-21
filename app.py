@@ -47,28 +47,35 @@ option = st.selectbox(
 )
 typed_movie = st.text_input('Or type a movie name')
 
-selected_movie = typed_movie if typed_movie else (None if option == "None" else option)
-
-if st.button('Show recommendation') and selected_movie:
-    recommended_movies_name, recommended_movies_poster = recommend(selected_movie)
-    if recommended_movies_name:
-        col1, col2, col3, col4, col5 = st.columns(5)
-        with col1:
-            st.text(recommended_movies_name[0])
-            st.image(recommended_movies_poster[0])
-        with col2:
-            st.text(recommended_movies_name[1])
-            st.image(recommended_movies_poster[1])
-        with col3:
-            st.text(recommended_movies_name[2])
-            st.image(recommended_movies_poster[2])
-        with col4:
-            st.text(recommended_movies_name[3])
-            st.image(recommended_movies_poster[3])
-        with col5:
-            st.text(recommended_movies_name[4])
-            st.image(recommended_movies_poster[4])
-    else:
-        st.error("Could not find the movie you were looking for. Try using a more specific name.")
+# Determine which input to use
+if typed_movie:
+    selected_movie = typed_movie
+elif option != "None":
+    selected_movie = option
 else:
-    st.error("Please select or type a movie name.")
+    selected_movie = None
+
+if st.button('Show recommendation'):
+    if selected_movie:
+        recommended_movies_name, recommended_movies_poster = recommend(selected_movie)
+        if recommended_movies_name:
+            col1, col2, col3, col4, col5 = st.columns(5)
+            with col1:
+                st.text(recommended_movies_name[0])
+                st.image(recommended_movies_poster[0])
+            with col2:
+                st.text(recommended_movies_name[1])
+                st.image(recommended_movies_poster[1])
+            with col3:
+                st.text(recommended_movies_name[2])
+                st.image(recommended_movies_poster[2])
+            with col4:
+                st.text(recommended_movies_name[3])
+                st.image(recommended_movies_poster[3])
+            with col5:
+                st.text(recommended_movies_name[4])
+                st.image(recommended_movies_poster[4])
+        else:
+            st.error("Could not find the movie you were looking for. Try using a more specific name.")
+    else:
+        st.error("Please select or type a movie name.")
