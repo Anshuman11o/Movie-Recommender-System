@@ -40,10 +40,14 @@ movies = load_compressed_pickle('artifacts/movies.pkl.lzma')
 similarity = load_compressed_pickle('artifacts/similarity.pkl.lzma')
 
 movie_list = movies['title'].values
-selected_movie = st.selectbox(
-    'Type or select a movie to get recommendation', 
+
+option = st.selectbox(
+    'Select or type a movie to get recommendation', 
     movie_list
 )
+typed_movie = st.text_input('Or type a movie name')
+
+selected_movie = typed_movie if typed_movie else option
 
 if st.button('Show recommendation'):
     recommended_movies_name, recommended_movies_poster = recommend(selected_movie)
