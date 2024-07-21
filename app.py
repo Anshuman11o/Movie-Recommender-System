@@ -13,10 +13,9 @@ def fetch_poster(movie_id):
     full_path = "http://image.tmdb.org/t/p/w500/" + poster_path
     return full_path
 
-
-def recommend(movie):
+def recommend(movie_title):
     try:
-        index = movies[movies['title'] == movie].index[0]
+        index = movies[movies['title'] == movie_title].index[0]
         distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
         # Distance 1:6 gives out the top 5 movies which match the inputted name
         recommended_movies_name = []
@@ -26,10 +25,12 @@ def recommend(movie):
             recommended_movies_poster.append(fetch_poster(movie_id))
             recommended_movies_name.append(movies.iloc[i[0]].title)
         return recommended_movies_name, recommended_movies_poster
-    except Exception as e:
-        print(f"Could not find the movie you were looking for. Error: {e}")
+    except IndexError:
+        st.error("Could not find the movie you were looking for. Try using a more specific name.")
         return [], []
-
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+        return [], []
 
 def load_compressed_pickle(file_path):
     with lzma.open(file_path, 'rb') as f:
@@ -64,4 +65,4 @@ if st.button('Show recommendation'):
             st.text(recommended_movies_name[4])
             st.image(recommended_movies_poster[4])
     else:
-        st.error("Could not find the movie you were looking for, Try using a more specific name.")
+        st.error("Could not find the movie you were looking for. Try using a more specific name.")
