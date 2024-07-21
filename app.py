@@ -16,9 +16,9 @@ def fetch_poster(movie_id):
 
 def recommend(movie):
     try:
-        index = movie[movie['title'] == movie].index[0]
-        distances = sorted(list(enumerate(similarity[index])), reverse=True, key = lambda x: x[1])
-        #distance 1:6 gives out the top 5 movies which match the inputted name
+        index = movies[movies['title'] == movie].index[0]
+        distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
+        # Distance 1:6 gives out the top 5 movies which match the inputted name
         recommended_movies_name = []
         recommended_movies_poster = []
         for i in distances[1:6]:
@@ -26,8 +26,9 @@ def recommend(movie):
             recommended_movies_poster.append(fetch_poster(movie_id))
             recommended_movies_name.append(movies.iloc[i[0]].title)
         return recommended_movies_name, recommended_movies_poster
-    except:
-        print("Could not find the movie you were looking for, Try using a more specific name.")
+    except Exception as e:
+        print(f"Could not find the movie you were looking for. Error: {e}")
+        return [], []
 
 
 def load_compressed_pickle(file_path):
@@ -44,20 +45,23 @@ selected_movie = st.selectbox(
 )
 
 if st.button('Show recommendation'):
-    recommended_movies_name, recommended_movies_poster = recommend(selected_movie) 
-    col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-        st.text(recommended_movies_name[0])
-        st.image(recommended_movies_poster[0])
-    with col2:
-        st.text(recommended_movies_name[1])
-        st.image(recommended_movies_poster[1])
-    with col3:
-        st.text(recommended_movies_name[2])
-        st.image(recommended_movies_poster[2])
-    with col4:
-        st.text(recommended_movies_name[3])
-        st.image(recommended_movies_poster[3])
-    with col5:
-        st.text(recommended_movies_name[4])
-        st.image(recommended_movies_poster[4])
+    recommended_movies_name, recommended_movies_poster = recommend(selected_movie)
+    if recommended_movies_name:
+        col1, col2, col3, col4, col5 = st.columns(5)
+        with col1:
+            st.text(recommended_movies_name[0])
+            st.image(recommended_movies_poster[0])
+        with col2:
+            st.text(recommended_movies_name[1])
+            st.image(recommended_movies_poster[1])
+        with col3:
+            st.text(recommended_movies_name[2])
+            st.image(recommended_movies_poster[2])
+        with col4:
+            st.text(recommended_movies_name[3])
+            st.image(recommended_movies_poster[3])
+        with col5:
+            st.text(recommended_movies_name[4])
+            st.image(recommended_movies_poster[4])
+    else:
+        st.error("Could not find the movie you were looking for, Try using a more specific name.")
