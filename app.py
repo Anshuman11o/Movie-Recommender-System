@@ -39,7 +39,7 @@ def load_compressed_pickle(file_path):
 movies = load_compressed_pickle('artifacts/movies.pkl.lzma')
 similarity = load_compressed_pickle('artifacts/similarity.pkl.lzma')
 
-movie_list = movies['title'].values
+movie_list = ["None"] + list(movies['title'].values)
 
 option = st.selectbox(
     'Select or type a movie to get recommendation', 
@@ -47,9 +47,9 @@ option = st.selectbox(
 )
 typed_movie = st.text_input('Or type a movie name')
 
-selected_movie = typed_movie if typed_movie else option
+selected_movie = typed_movie if typed_movie else (None if option == "None" else option)
 
-if st.button('Show recommendation'):
+if st.button('Show recommendation') and selected_movie:
     recommended_movies_name, recommended_movies_poster = recommend(selected_movie)
     if recommended_movies_name:
         col1, col2, col3, col4, col5 = st.columns(5)
@@ -70,3 +70,5 @@ if st.button('Show recommendation'):
             st.image(recommended_movies_poster[4])
     else:
         st.error("Could not find the movie you were looking for. Try using a more specific name.")
+else:
+    st.error("Please select or type a movie name.")
