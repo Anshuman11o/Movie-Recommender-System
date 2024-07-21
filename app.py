@@ -35,6 +35,31 @@ def recommend(movie_title):
 def load_compressed_pickle(file_path):
     with lzma.open(file_path, 'rb') as f:
         return pickle.load(f)
+    
+def popularity():
+    try:
+        # Getting top 5 most popular movies from the whole list
+        top_5_popular_movies = movies.nlargest(5, 'popularity')
+        popular_titles = []
+        popular_posters = []
+        for id in top_5_popular_movies['movie_id']:
+            popular_titles.append(top_5_popular_movies['title'])
+            popular_posters.append(fetch_poster(id))
+        return popular_titles, popular_posters
+    except:
+        st.error("Sorry we ran into some sort of trouble")
+
+def vote_avg():
+    try:
+        # Getting top 5 best voted movies from the whole list
+        top_5_popular_movies = movies.nlargest(5, 'vote_average')
+        rated_titles = []
+        rated_posters = []
+        for id in top_5_popular_movies['movie_id']:
+            rated_titles.append(top_5_popular_movies['title'])
+            rated_posters.append(fetch_poster(id))
+    except:
+        st.error("Sorry we ran into some sort of trouble")
 
 movies = load_compressed_pickle('artifacts/movies.pkl.lzma')
 similarity = load_compressed_pickle('artifacts/similarity.pkl.lzma')
@@ -79,3 +104,47 @@ if st.button('Show recommendation'):
             st.error("Could not find the movie you were looking for. Try using a more specific name.")
     else:
         st.error("Please select or type a movie name.")
+
+if st.button("Most popular"):
+    most_popular_titles, most_popular_posters = popularity()
+    if most_popular_titles:
+            col1, col2, col3, col4, col5 = st.columns(5)
+            with col1:
+                st.text(most_popular_titles[0])
+                st.image(most_popular_posters[0])
+            with col2:
+                st.text(most_popular_titles[1])
+                st.image(most_popular_posters[1])
+            with col3:
+                st.text(most_popular_titles[2])
+                st.image(most_popular_posters[2])
+            with col4:
+                st.text(most_popular_titles[3])
+                st.image(most_popular_posters[3])
+            with col5:
+                st.text(most_popular_titles[4])
+                st.image(most_popular_posters[4])
+    else:
+        st.error("Sorry we ran into some sort of trouble")
+
+if st.button("Highly rated"):
+    highly_rated_titles, highly_rated_posters = popularity()
+    if highly_rated_titles:
+            col1, col2, col3, col4, col5 = st.columns(5)
+            with col1:
+                st.text(highly_rated_titles[0])
+                st.image(highly_rated_posters[0])
+            with col2:
+                st.text(highly_rated_titles[1])
+                st.image(highly_rated_posters[1])
+            with col3:
+                st.text(highly_rated_titles[2])
+                st.image(highly_rated_posters[2])
+            with col4:
+                st.text(highly_rated_titles[3])
+                st.image(highly_rated_posters[3])
+            with col5:
+                st.text(highly_rated_titles[4])
+                st.image(highly_rated_posters[4])
+    else:
+        st.error("Sorry we ran into some sort of trouble")
