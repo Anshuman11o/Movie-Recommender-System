@@ -19,3 +19,6 @@ Finally, using Jupyter notebook I was able to run a lot of tests and was able to
 Web application was then desgined using Streamlit and was connected through Git. Deployment was conducted using Heroku.
 
 Final application was tested and adjustments were made depending on user feedbacks.
+![movie-recommender-1](https://github.com/user-attachments/assets/1dd42598-6641-4f37-aab3-c01cb4c71bfd)
+![movie-recommender-2](https://github.com/user-attachments/assets/1b3c800e-a3db-4267-a9d0-66916d322f7a)
+![movie-recommender-3](https://github.com/user-attachments/assets/7d227cbf-b10d-4a80-a2a8-c809b53178a0)
